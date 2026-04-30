@@ -1,12 +1,13 @@
 # 🎨 tokidev-skills
 
-Skills de Cowork / Claude Code para el contenido de **@tokidev.ia** — carruseles de Instagram, slides y más.
+Skills de Cowork / Claude Code para el contenido de **@tokidev.ia** — carruseles de Instagram, infografías para LinkedIn y más.
 
 ## Skills disponibles
 
 | Skill | Descripción |
 |---|---|
 | [`carousel-tokidev`](./carousel-tokidev/) | Genera carruseles de Instagram 1080×1350px listos para exportar como PNG |
+| [`infografia-tokidev`](./infografia-tokidev/) | Genera infografías para LinkedIn 1080×1440px listos para exportar como PNG |
 
 ---
 
@@ -34,6 +35,8 @@ npx skills add tokidev-ai/tokidev-skills
 
 ## Uso
 
+### Carrusel de Instagram
+
 Una vez instalado, simplemente describile a Claude lo que querés:
 
 ```
@@ -49,6 +52,22 @@ Carrusel de 10 slides sobre productividad para developers
 ```
 
 Claude va a leer el skill automáticamente y generar el HTML listo para abrir en el navegador y exportar como PNG.
+
+### Infografía para LinkedIn
+
+```
+Hacé una infografía sobre cómo funcionan los tokens en los LLMs
+```
+
+```
+Nueva infografía sobre los mejores modelos de IA en 2025
+```
+
+```
+Infografía sobre cómo optimizar prompts para GPT y Claude
+```
+
+Claude genera el HTML listo para abrir en el navegador y exportar como PNG en formato retrato LinkedIn (1080×1440px).
 
 ---
 
