@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[[TEMA DEL CARRUSEL]]</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; text-decoration: none; }
+
+  html, body {
+    background: #0a0920;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh; width: 100vw;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .slides-wrapper {
+    width: 1080px; height: 1350px;
+    position: relative; flex-shrink: 0;
+    transform-origin: center center;
+  }
+
+  .slide {
+    position: absolute;
+    width: 1080px; height: 1350px;
+    top: 0; left: 0;
+    background: #131139;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 52px 60px 64px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.55s ease;
+    overflow: hidden;
+  }
+
+  #slide-6 {
+    justify-content: flex-start;
+    padding: 0;
+    background: #0d0b2a;
+  }
+
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  /* GLOWS */
+  .glow {
+    position: absolute; top: -140px; left: 50%;
+    transform: translateX(-50%);
+    width: 780px; height: 540px;
+    background: radial-gradient(ellipse, rgba(180,40,80,0.52) 0%, rgba(120,20,120,0.18) 45%, transparent 75%);
+    pointer-events: none; z-index: 0;
+  }
+  .glow-l {
+    position: absolute; top: -80px; left: -120px;
+    width: 520px; height: 420px;
+    background: radial-gradient(ellipse, rgba(90,20,155,0.38) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .glow-r {
+    position: absolute; bottom: -60px; right: -80px;
+    width: 480px; height: 380px;
+    background: radial-gradient(ellipse, rgba(0,180,200,0.18) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .slide-img {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0.18; z-index: 0;
+  }
+  .slide-img.strong { opacity: 0.28; }
+
+  .img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, #131139 35%, rgba(19,17,57,0.55) 70%, rgba(19,17,57,0.3) 100%);
+    z-index: 1;
+  }
+
+  .slide-content { position: relative; z-index: 2; }
+
+  /* TIPOGRAFÍA */
+  .h-hero {
+    font-size: clamp(120px, 16vw, 200px);
+    font-weight: 900; line-height: 1.06; letter-spacing: -0.035em; color: #fff;
+    margin-bottom: 24px;
+  }
+  .h-main {
+    font-size: clamp(96px, 13vw, 156px);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; color: #fff;
+    margin-bottom: 24px;
+  }
+  .h-final {
+    font-size: clamp(106px, 14vw, 172px);
+    font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: #fff;
+    margin-bottom: 28px;
+  }
+
+  .accent {
+    background: linear-gradient(90deg, #FA743F 0%, #A406E9 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; display: block;
+    padding-bottom: 16px; margin-bottom: -4px;
+    text-decoration: none !important; border-bottom: none !important;
+  }
+  .accent-inline {
+    background: linear-gradient(90deg, #FA743F 0%, #A406E9 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; text-decoration: none !important;
+  }
+
+  .desc-hero {
+    font-size: clamp(36px, 4.8vw, 56px); font-weight: 400;
+    color: #94a3b8; line-height: 1.5; max-width: 740px;
+  }
+  .desc {
+    font-size: clamp(33px, 4.2vw, 48px); font-weight: 400;
+    color: #94a3b8; line-height: 1.5; max-width: 640px;
+  }
+
+  .divider {
+    width: 52px; height: 3px;
+    background: linear-gradient(90deg, #FA743F, #A406E9);
+    border-radius: 2px; margin: 0 0 26px;
+  }
+
+  .hero-line {
+    width: 60px; height: 4px;
+    background: linear-gradient(90deg, #FA743F, #A406E9);
+    border-radius: 2px; margin-top: 34px;
+  }
+
+  /* CARDS */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+  .cols-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 14px; }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px; padding: 18px;
+  }
+  .card h3 { font-size: clamp(34px, 4vw, 50px); font-weight: 700; color: #fff; margin-bottom: 10px; line-height: 1.2; }
+  .card p { font-size: clamp(26px, 3vw, 36px); color: #7c8da4; line-height: 1.5; }
+
+  .bcard {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 16px 14px;
+  }
+  .bcard.hi { border-color: rgba(164,6,233,0.45); background: rgba(164,6,233,0.07); }
+
+  .bnum {
+    font-size: clamp(46px, 6vw, 72px); font-weight: 900; line-height: 1;
+    background: linear-gradient(90deg, #FA743F, #A406E9);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 7px;
+  }
+  .bnum.green { background: linear-gradient(90deg,#34d399,#a78bfa); -webkit-background-clip:text; background-clip:text; }
+  .bnum.orange { background: linear-gradient(90deg,#FA743F,#f59e0b); -webkit-background-clip:text; background-clip:text; }
+  .blabel { font-size: clamp(21px, 2.3vw, 28px); color: #64748b; font-weight: 600; line-height: 1.35; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+  .pill {
+    padding: 14px 30px; border-radius: 30px;
+    font-size: clamp(26px, 3.2vw, 38px); font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #c4b5f4; background: rgba(255,255,255,0.04);
+    letter-spacing: -0.01em; white-space: nowrap; flex-shrink: 0;
+  }
+  .pill.blue   { border-color: rgba(255,107,0,0.45);   color: #ff8533; background: rgba(255,107,0,0.09); }
+  .pill.purple { border-color: rgba(164,6,233,0.45);  color: #c084fc; background: rgba(164,6,233,0.09); }
+  .pill.green  { border-color: rgba(52,211,153,0.45);  color: #34d399; background: rgba(52,211,153,0.09); }
+
+  /* SLIDE FINAL */
+  .final-top {
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; padding: 56px 60px 32px;
+    position: relative; z-index: 2;
+  }
+  .final-glow {
+    position: absolute; top: -100px; left: -100px;
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(140,40,220,0.55) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .final-glow2 {
+    position: absolute; bottom: -100px; right: -50px;
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(140,40,220,0.3) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .final-question {
+    font-size: clamp(82px, 11vw, 134px);
+    font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;
+    color: #fff; position: relative; z-index: 2;
+  }
+  .final-sub {
+    font-size: clamp(30px, 3.8vw, 46px); font-weight: 400;
+    color: #94a3b8; line-height: 1.5;
+    max-width: 900px; margin-top: 24px; position: relative; z-index: 2;
+  }
+  .final-bar {
+    background: rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 28px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; z-index: 2; flex-shrink: 0;
+  }
+  .final-follow-label {
+    font-size: 20px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px;
+    white-space: nowrap;
+  }
+  .final-handle-row { display: flex; align-items: center; gap: 14px; }
+  .final-handle-name {
+    font-size: clamp(36px, 4.8vw, 58px); font-weight: 900; letter-spacing: -0.02em;
+    background: linear-gradient(90deg, #fff 40%, #c4b5f4 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .final-actions { display: flex; align-items: center; gap: 28px; }
+  .final-action {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+  .action-icon {
+    width: 68px; height: 68px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .action-icon svg { width: 32px; height: 32px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* HANDLE */
+  .handle {
+    position: absolute; top: 46px; right: 60px;
+    font-size: 28px; font-weight: 800; letter-spacing: 0.01em;
+    color: rgba(255,255,255,0.88); z-index: 200;
+    user-select: none; pointer-events: none; white-space: nowrap;
+  }
+  #slide-0 .handle { font-size: 40px; }
+
+  /* ICONOS */
+  .ico {
+    width: 46px; height: 46px; border-radius: 13px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px; flex-shrink: 0;
+  }
+  .ico svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ico-blue   { background: linear-gradient(135deg, #0ea5e9, #6366f1); box-shadow: 0 4px 18px rgba(14,165,233,0.45); }
+  .ico-purple { background: linear-gradient(135deg, #7c3aed, #4f46e5); box-shadow: 0 4px 18px rgba(124,58,237,0.45); }
+  .ico-orange { background: linear-gradient(135deg, #ea580c, #f59e0b); box-shadow: 0 4px 18px rgba(234,88,12,0.45); }
+  .ico-green  { background: linear-gradient(135deg, #10b981, #0ea5e9); box-shadow: 0 4px 18px rgba(16,185,129,0.4); }
+  .ico-teal   { background: linear-gradient(135deg, #06b6d4, #3b82f6); box-shadow: 0 4px 18px rgba(6,182,212,0.45); }
+  .ico-pink   { background: linear-gradient(135deg, #ec4899, #A406E9); box-shadow: 0 4px 18px rgba(236,72,153,0.4); }
+  .ico.sm { width: 38px; height: 38px; border-radius: 10px; margin-bottom: 10px; }
+  .ico.sm svg { width: 18px; height: 18px; }
+  .ico.xl { width: 68px; height: 68px; border-radius: 20px; margin-bottom: 20px; }
+  .ico.xl svg { width: 32px; height: 32px; }
+
+  /* NAV */
+  .nav {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 10px; z-index: 100;
+  }
+  .ndot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.22); cursor: pointer; transition: all 0.3s ease; }
+  .ndot.active { background: #A406E9; width: 26px; border-radius: 4px; }
+
+  .arr {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #fff; width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 100; font-size: 18px; transition: background 0.2s; user-select: none;
+  }
+  .arr:hover { background: rgba(255,255,255,0.11); }
+  .arr.l { left: 18px; } .arr.r { right: 18px; }
+
+  .counter {
+    position: absolute; top: 22px; right: 30px;
+    font-size: 12px; font-weight: 600;
+    color: rgba(255,255,255,0.28); letter-spacing: 0.1em; z-index: 100;
+  }
+
+  /* EXPORTAR */
+  #export-btn {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 999;
+    background: linear-gradient(135deg, #FA743F, #A406E9);
+    color: #fff; border: none; border-radius: 30px;
+    padding: 11px 26px; font-size: 14px; font-weight: 700;
+    letter-spacing: 0.06em; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(164,6,233,0.45);
+    display: flex; align-items: center; gap: 8px; transition: opacity 0.2s;
+  }
+  #export-btn:hover { opacity: 0.88; }
+  #export-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  #export-progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #FA743F, #A406E9);
+    transform-origin: left; transform: scaleX(0);
+    transition: transform 0.3s; z-index: 1000;
+  }
+</style>
+</head>
+<body>
+
+<div id="export-progress"></div>
+<button id="export-btn" onclick="exportSlides()">⬇ Exportar 7 slides PNG</button>
+
+<div class="slides-wrapper">
+
+<!-- ════════════════════════════════
+     SLIDE 01 — PORTADA
+     Pregunta o dato impactante. Imagen derecha opcional.
+════════════════════════════════ -->
+<div class="slide active" id="slide-0">
+  <div class="handle">@tokidev.ia</div>
+
+  <!-- IMAGEN DERECHA CON DEGRADADO (reemplazar URL_IMAGEN o quitar bloque) -->
+  <!--
+  <div style="position: absolute; right: 0; top: 0; width: 620px; height: 1350px; z-index: 1; pointer-events: none;">
+    <div style="width: 100%; height: 100%;
+      background: url('URL_IMAGEN') center center/cover no-repeat;
+      -webkit-mask-image: linear-gradient(to left, black 0%, black 25%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.2) 75%, transparent 95%);
+      mask-image: linear-gradient(to left, black 0%, black 25%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.2) 75%, transparent 95%);">
+    </div>
+  </div>
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 80% 50%, rgba(19,17,57,0) 0%, rgba(19,17,57,0.3) 50%, #131139 75%); z-index: 2; pointer-events: none;"></div>
+  -->
+
+  <!-- Label producto (opcional) -->
+  <!--
+  <div style="position: absolute; top: 52px; left: 60px; z-index: 5; display: flex; align-items: center; gap: 10px; pointer-events: none; white-space: nowrap;">
+    <div style="width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg,#FA743F,#A406E9); flex-shrink: 0;"></div>
+    <span style="font-size: 22px; font-weight: 900; letter-spacing: -0.01em; color: rgba(255,255,255,0.85); white-space: nowrap;">[[Marca]] <span style="background: linear-gradient(90deg,#FA743F,#A406E9); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">[[Producto]]</span></span>
+  </div>
+  -->
+
+  <div class="slide-content" style="z-index: 4; max-width: 680px;">
+    <div class="h-hero" style="text-align: left; font-size: clamp(104px, 14vw, 168px); margin-bottom: 18px;">
+      [[TÍTULO PORTADA]]
+      <span class="accent">[[ACENTO PORTADA]]</span>
+    </div>
+    <p class="desc-hero" style="text-align: left; max-width: 620px; font-size: clamp(32px, 4vw, 48px);">
+      [[DESCRIPCIÓN PORTADA]]
+    </p>
+    <div class="hero-line" style="margin-left: 0;"></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     SLIDE 02
+════════════════════════════════ -->
+<div class="slide" id="slide-1">
+  <div class="handle">@tokidev.ia</div>
+  <div class="glow"></div>
+
+  <div class="slide-content">
+    <div class="h-main">
+      [[TÍTULO]]
+      <span class="accent">[[ACENTO]]</span>
+    </div>
+    <div class="divider"></div>
+    <p class="desc">[[DESCRIPCIÓN]]</p>
+    <!-- Agregar cards, pills, números según el contenido -->
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     SLIDE 03
+════════════════════════════════ -->
+<div class="slide" id="slide-2">
+  <div class="handle">@tokidev.ia</div>
+  <div class="glow"></div>
+
+  <div class="slide-content">
+    <div class="h-main">
+      [[TÍTULO]]
+      <span class="accent">[[ACENTO]]</span>
+    </div>
+    <div class="divider"></div>
+    <p class="desc">[[DESCRIPCIÓN]]</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     SLIDE 04
+════════════════════════════════ -->
+<div class="slide" id="slide-3">
+  <div class="handle">@tokidev.ia</div>
+  <div class="glow"></div>
+
+  <div class="slide-content">
+    <div class="h-main">
+      [[TÍTULO]]
+      <span class="accent">[[ACENTO]]</span>
+    </div>
+    <div class="divider"></div>
+    <p class="desc">[[DESCRIPCIÓN]]</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     SLIDE 05
+════════════════════════════════ -->
+<div class="slide" id="slide-4">
+  <div class="handle">@tokidev.ia</div>
+  <div class="glow"></div>
+
+  <div class="slide-content">
+    <div class="h-main">
+      [[TÍTULO]]
+      <span class="accent">[[ACENTO]]</span>
+    </div>
+    <div class="divider"></div>
+    <p class="desc">[[DESCRIPCIÓN]]</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     SLIDE 06
+════════════════════════════════ -->
+<div class="slide" id="slide-5">
+  <div class="handle">@tokidev.ia</div>
+  <div class="glow"></div>
+
+  <div class="slide-content">
+    <div class="h-main">
+      [[TÍTULO]]
+      <span class="accent">[[ACENTO]]</span>
+    </div>
+    <div class="divider"></div>
+    <p class="desc">[[DESCRIPCIÓN]]</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     SLIDE 07 — CTA FINAL (no tocar estructura)
+════════════════════════════════ -->
+<div class="slide" id="slide-6">
+  <div class="final-glow"></div>
+  <div class="final-glow2"></div>
+
+  <div class="final-top">
+    <div class="final-question">
+      [[PREGUNTA FINAL]]
+      <span class="accent" style="padding-bottom: 18px;">[[ACENTO FINAL]]</span>
+    </div>
+    <p class="final-sub">
+      [[SUBTÍTULO FINAL]]
+    </p>
+  </div>
+
+  <div class="final-bar">
+    <div>
+      <div class="final-follow-label">Seguinos para más contenido de IA y tech</div>
+      <div class="final-handle-row">
+        <div class="final-handle-name">@tokidev.ia</div>
+      </div>
+    </div>
+
+    <div class="final-actions">
+      <div class="final-action">
+        <div class="action-icon" style="background: linear-gradient(135deg,#ea580c,#f59e0b); box-shadow: 0 4px 16px rgba(234,88,12,0.5);">
+          <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        GUARDA
+      </div>
+      <div class="final-action">
+        <div class="action-icon" style="background: linear-gradient(135deg,#0ea5e9,#6366f1); box-shadow: 0 4px 16px rgba(14,165,233,0.5);">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </div>
+        COMPARTE
+      </div>
+      <div class="final-action">
+        <div class="action-icon" style="background: linear-gradient(135deg,#7c3aed,#4f46e5); box-shadow: 0 4px 16px rgba(124,58,237,0.5);">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        COMENTA
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="counter" id="counter">01 / 07</div>
+  <div class="arr l" onclick="go(cur-1)">&#8592;</div>
+  <div class="arr r" onclick="go(cur+1)">&#8594;</div>
+  <div class="nav" id="nav"></div>
+</div><!-- /slides-wrapper -->
+
+<script>
+  const INSTA_W = 1080, INSTA_H = 1350;
+  const wrapper = document.querySelector('.slides-wrapper');
+  function scaleWrapper() {
+    const s = Math.min(window.innerWidth / INSTA_W, window.innerHeight / INSTA_H);
+    wrapper.style.transform = `scale(${s})`;
+  }
+  scaleWrapper();
+  window.addEventListener('resize', scaleWrapper);
+
+  let cur = 0, total = 7;
+  const nav = document.getElementById('nav');
+  const ctr = document.getElementById('counter');
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'ndot' + (i === 0 ? ' active' : '');
+    d.onclick = () => go(i);
+    nav.appendChild(d);
+  }
+
+  function go(n) {
+    document.getElementById('slide-' + cur).classList.remove('active');
+    nav.children[cur].classList.remove('active');
+    cur = ((n % total) + total) % total;
+    document.getElementById('slide-' + cur).classList.add('active');
+    nav.children[cur].classList.add('active');
+    ctr.textContent = String(cur+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key==='ArrowDown') go(cur+1);
+    if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(cur-1);
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script>
+async function exportSlides() {
+  const btn = document.getElementById('export-btn');
+  const bar = document.getElementById('export-progress');
+  btn.disabled = true;
+  btn.textContent = '⏳ Exportando...';
+
+  const uiEls = document.querySelectorAll('.arr, .nav, .counter, #export-btn, #export-progress');
+  uiEls.forEach(el => el.style.visibility = 'hidden');
+
+  const W = INSTA_W, H = INSTA_H;
+
+  for (let i = 0; i < total; i++) {
+    go(i);
+    await new Promise(r => setTimeout(r, 500));
+    const slide = document.getElementById('slide-' + i);
+    try {
+      const dataUrl = await domtoimage.toPng(slide, {
+        width: W, height: H, bgcolor: '#131139', quality: 1,
+      });
+      const link = document.createElement('a');
+      link.download = `[[tema]]-slide-${String(i+1).padStart(2,'0')}.png`;
+      link.href = dataUrl;
+      link.click();
+      await new Promise(r => setTimeout(r, 300));
+    } catch(e) { console.error('Error slide ' + i, e); }
+    bar.style.transform = `scaleX(${(i + 1) / total})`;
+  }
+
+  uiEls.forEach(el => el.style.visibility = '');
+  go(0);
+  btn.disabled = false;
+  btn.innerHTML = '✅ ¡Listos! 7 PNGs descargados';
+  setTimeout(() => { btn.innerHTML = '⬇ Exportar 7 slides PNG'; }, 3000);
+  bar.style.transform = 'scaleX(0)';
+}
+</script>
+</body>
+</html>
