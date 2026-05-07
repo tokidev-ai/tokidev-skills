@@ -1,9 +1,9 @@
 ---
 name: infografia-tokidev
-description: "Crear infografías de LinkedIn para @tokidev.ia en HTML con canvas fijo (1080×1440px), exportación PNG. Usar cuando el usuario pida infografía, infographic LinkedIn, imagen informativa, visual educativo, o cualquier variante. Incluye todo el sistema de diseño — colores, tipografía, secciones, componentes y export listo. NO necesita explicar colores ni estructura, ya está todo aquí."
+description: "Crear infografías de LinkedIn para @tokidev.ai en HTML con canvas fijo (1080×1440px), exportación PNG. Usar cuando el usuario pida infografía, infographic LinkedIn, imagen informativa, visual educativo, o cualquier variante. Incluye todo el sistema de diseño — colores, tipografía, secciones, componentes y export listo. NO necesita explicar colores ni estructura, ya está todo aquí."
 ---
 
-# Skill: Infografía LinkedIn @tokidev.ia
+# Skill: Infografía LinkedIn @tokidev.ai
 
 Genera infografías de LinkedIn en formato HTML listo para abrir en el navegador y exportar como PNG de 1080×1440px. Usa el sistema de diseño y los componentes documentados aquí. Guarda el resultado como `[tema]-linkedin.html` en la carpeta del proyecto.
 
@@ -23,7 +23,7 @@ Genera infografías de LinkedIn en formato HTML listo para abrir en el navegador
 
 | Variable | Valor |
 |---|---|
-| Handle | `tokidev.ia` |
+| Handle | `tokidev.ai` |
 | Canvas | `1080 × 1440 px` |
 | Formato export | PNG via dom-to-image |
 | Idioma | Español rioplatense (voseo) |
@@ -68,7 +68,7 @@ background: radial-gradient(circle, rgba(250,116,63,0.18) 0%, transparent 65%);
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>[Tema] — tokidev.ia</title>
+<title>[Tema] — tokidev.ai</title>
 <style>
 /* PEGAR CSS COMPLETO AQUÍ */
 </style>
@@ -85,7 +85,7 @@ background: radial-gradient(circle, rgba(250,116,63,0.18) 0%, transparent 65%);
       <div class="eyebrow">[Categoría] · [Subtítulo]</div>
       <div class="brand">
         <div class="brand-dot"></div>
-        <div class="brand-name">tokidev.ia</div>
+        <div class="brand-name">tokidev.ai</div>
       </div>
     </div>
     <div class="hdr-title">

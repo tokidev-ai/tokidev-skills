@@ -1,6 +1,6 @@
 # 🪨 carousel-tokidev
 
-Skill para generar carruseles de Instagram de **@tokidev.ia** — formato 1080×1350px, exportación PNG, sistema de diseño completo incluido.
+Skill para generar carruseles de Instagram de **@tokidev.ai** — formato 1080×1350px, exportación PNG, sistema de diseño completo incluido.
 
 ## ¿Qué hace?
 
@@ -63,7 +63,7 @@ Una vez abierto el HTML en el navegador:
 | Fondo | `#131139` |
 | Acento | Degradado naranja→morado `#FA743F → #A406E9` |
 | Tipografía | Segoe UI / system-ui |
-| Handle | `@tokidev.ia` |
+| Handle | `@tokidev.ai` |
 | Idioma | Español rioplatense |
 
 ### Componentes incluidos
@@ -98,4 +98,4 @@ Un carrusel sobre "Optimización de tokens en IA" generado con este skill:
 
 ---
 
-Made with ❤️ by [@tokidev.ia](https://instagram.com/tokidev.ia)
+Made with ❤️ by [@tokidev.ai](https://instagram.com/tokidev.ai)
