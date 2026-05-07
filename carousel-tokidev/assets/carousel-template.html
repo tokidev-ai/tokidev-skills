@@ -313,18 +313,24 @@
      Pregunta o dato impactante. Imagen derecha opcional.
 ════════════════════════════════ -->
 <div class="slide active" id="slide-0">
-  <div class="handle">@tokidev.ia</div>
+  <div class="handle">@tokidev.ai</div>
 
-  <!-- IMAGEN DERECHA CON DEGRADADO (reemplazar URL_IMAGEN o quitar bloque) -->
+  <!-- IMAGEN DERECHA CON FADE LATERAL — compatible con export PNG (NO usar mask-image) -->
   <!--
-  <div style="position: absolute; right: 0; top: 0; width: 620px; height: 1350px; z-index: 1; pointer-events: none;">
+  <div style="position: absolute; right: 0; top: 0; width: 780px; height: 1350px; z-index: 1; pointer-events: none; overflow: hidden;">
     <div style="width: 100%; height: 100%;
-      background: url('URL_IMAGEN') center center/cover no-repeat;
-      -webkit-mask-image: linear-gradient(to left, black 0%, black 25%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.2) 75%, transparent 95%);
-      mask-image: linear-gradient(to left, black 0%, black 25%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.2) 75%, transparent 95%);">
+      background: url('URL_IMAGEN') center top/cover no-repeat;">
+    </div>
+    <div style="position: absolute; inset: 0;
+      background: linear-gradient(to right,
+        #131139 0%, #131139 2%,
+        rgba(19,17,57,0.92) 12%,
+        rgba(19,17,57,0.65) 30%,
+        rgba(19,17,57,0.25) 55%,
+        transparent 80%, transparent 100%);">
     </div>
   </div>
-  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 80% 50%, rgba(19,17,57,0) 0%, rgba(19,17,57,0.3) 50%, #131139 75%); z-index: 2; pointer-events: none;"></div>
+  <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 40%, rgba(19,17,57,0) 0%, rgba(19,17,57,0.55) 55%, #131139 80%); z-index: 2; pointer-events: none;"></div>
   -->
 
   <!-- Label producto (opcional) -->
@@ -352,7 +358,7 @@
      SLIDE 02
 ════════════════════════════════ -->
 <div class="slide" id="slide-1">
-  <div class="handle">@tokidev.ia</div>
+  <div class="handle">@tokidev.ai</div>
   <div class="glow"></div>
 
   <div class="slide-content">
@@ -371,7 +377,7 @@
      SLIDE 03
 ════════════════════════════════ -->
 <div class="slide" id="slide-2">
-  <div class="handle">@tokidev.ia</div>
+  <div class="handle">@tokidev.ai</div>
   <div class="glow"></div>
 
   <div class="slide-content">
@@ -389,7 +395,7 @@
      SLIDE 04
 ════════════════════════════════ -->
 <div class="slide" id="slide-3">
-  <div class="handle">@tokidev.ia</div>
+  <div class="handle">@tokidev.ai</div>
   <div class="glow"></div>
 
   <div class="slide-content">
@@ -407,7 +413,7 @@
      SLIDE 05
 ════════════════════════════════ -->
 <div class="slide" id="slide-4">
-  <div class="handle">@tokidev.ia</div>
+  <div class="handle">@tokidev.ai</div>
   <div class="glow"></div>
 
   <div class="slide-content">
@@ -425,7 +431,7 @@
      SLIDE 06
 ════════════════════════════════ -->
 <div class="slide" id="slide-5">
-  <div class="handle">@tokidev.ia</div>
+  <div class="handle">@tokidev.ai</div>
   <div class="glow"></div>
 
   <div class="slide-content">
@@ -460,7 +466,7 @@
     <div>
       <div class="final-follow-label">Seguinos para más contenido de IA y tech</div>
       <div class="final-handle-row">
-        <div class="final-handle-name">@tokidev.ia</div>
+        <div class="final-handle-name">@tokidev.ai</div>
       </div>
     </div>
 
@@ -530,7 +536,7 @@
   });
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
 <script>
 async function exportSlides() {
   const btn = document.getElementById('export-btn');
@@ -538,33 +544,45 @@ async function exportSlides() {
   btn.disabled = true;
   btn.textContent = '⏳ Exportando...';
 
-  const uiEls = document.querySelectorAll('.arr, .nav, .counter, #export-btn, #export-progress');
-  uiEls.forEach(el => el.style.visibility = 'hidden');
-
   const W = INSTA_W, H = INSTA_H;
 
   for (let i = 0; i < total; i++) {
     go(i);
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 950));
     const slide = document.getElementById('slide-' + i);
+    slide.style.opacity = '1';
+    slide.style.transition = 'none';
     try {
-      const dataUrl = await domtoimage.toPng(slide, {
-        width: W, height: H, bgcolor: '#131139', quality: 1,
+      const dataUrl = await htmlToImage.toPng(slide, {
+        width: W, height: H, pixelRatio: 1, cacheBust: true,
+        fetchRequestInit: { mode: 'cors', cache: 'no-cache' },
+        filter: (node) => {
+          if (!node.classList) return true;
+          if (node.classList.contains('arr')) return false;
+          if (node.classList.contains('nav')) return false;
+          if (node.classList.contains('counter')) return false;
+          if (node.id === 'export-btn') return false;
+          if (node.id === 'export-progress') return false;
+          return true;
+        }
       });
       const link = document.createElement('a');
       link.download = `[[tema]]-slide-${String(i+1).padStart(2,'0')}.png`;
       link.href = dataUrl;
+      document.body.appendChild(link);
       link.click();
-      await new Promise(r => setTimeout(r, 300));
+      document.body.removeChild(link);
+      await new Promise(r => setTimeout(r, 400));
     } catch(e) { console.error('Error slide ' + i, e); }
+    slide.style.opacity = '';
+    slide.style.transition = '';
     bar.style.transform = `scaleX(${(i + 1) / total})`;
   }
 
-  uiEls.forEach(el => el.style.visibility = '');
   go(0);
   btn.disabled = false;
-  btn.innerHTML = '✅ ¡Listos! 7 PNGs descargados';
-  setTimeout(() => { btn.innerHTML = '⬇ Exportar 7 slides PNG'; }, 3000);
+  btn.innerHTML = `✅ ¡Listos! ${total} PNGs descargados`;
+  setTimeout(() => { btn.innerHTML = `⬇ Exportar ${total} slides PNG`; }, 3000);
   bar.style.transform = 'scaleX(0)';
 }
 </script>

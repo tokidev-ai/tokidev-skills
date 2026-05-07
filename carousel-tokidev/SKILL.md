@@ -1,11 +1,11 @@
 ---
 name: carousel-tokidev
-description: "Crear carruseles de Instagram para @tokidev.ia en HTML con slides personalizados (1080x1350px), exportacion PNG. Usar cuando el usuario pida carrusel, slides Instagram, nuevo carrusel, carrusel sobre X, o cualquier variante. Incluye todo el sistema de diseno — colores, tipografia, componentes y plantilla lista. NO necesita explicar colores ni estructura, ya esta todo aqui."
+description: "Crear carruseles de Instagram para @tokidev.ai en HTML con slides personalizados (1080x1350px), exportacion PNG. Usar cuando el usuario pida carrusel, slides Instagram, nuevo carrusel, carrusel sobre X, o cualquier variante. Incluye todo el sistema de diseno — colores, tipografia, componentes y plantilla lista. NO necesita explicar colores ni estructura, ya esta todo aqui."
 ---
 
-# Skill: Carrusel Instagram @tokidev.ia
+# Skill: Carrusel Instagram @tokidev.ai
 
-Genera carruseles de Instagram en formato HTML listo para abrir en el navegador y exportar como PNG. Usa la plantilla bundled en `assets/carousel-template.html` como base, rellena con el contenido indicado por el usuario, y guarda el resultado como un nuevo archivo `.html` en la carpeta de outputs.
+Genera carruseles de Instagram en formato HTML listo para abrir en el navegador y exportar como PNG. Usa la plantilla bundled en `assets/carousel-template.html` como base, rellena con el contenido indicado por el usuario, y guarda el resultado como un nuevo archivo `.html` en la carpeta del proyecto.
 
 ---
 
@@ -14,7 +14,7 @@ Genera carruseles de Instagram en formato HTML listo para abrir en el navegador 
 1. **Preguntar** cuántos slides quiere antes de generar (ver sección abajo)
 2. **Leer** `assets/carousel-template.html` (la plantilla base con todos los estilos)
 3. **Generar** los slides según la cantidad indicada, manteniendo siempre el slide 01 (portada) y el último como CTA final
-4. **Guardar** como `[tema]-slides.html` en la carpeta de outputs del usuario
+4. **Guardar** como `[tema]-slides.html` en la carpeta de trabajo activa del usuario (workspace folder conectada en Cowork)
 5. **Compartir** el link al archivo para que el usuario lo abra
 
 ---
@@ -69,11 +69,11 @@ let cur = 0, total = 10;
 
 | Variable | Valor |
 |---|---|
-| Handle | `@tokidev.ia` |
+| Handle | `@tokidev.ai` |
 | Formato | 1080 × 1350 px |
 | Slides | Variable (preguntar al usuario, mínimo 3) |
 | Idioma | Español rioplatense (voseo: "usás", "hacés") |
-| Exportar | Botón PNG via dom-to-image (ya en plantilla) |
+| Exportar | Botón PNG via html-to-image (jsDelivr CDN) |
 
 ---
 
@@ -83,7 +83,7 @@ let cur = 0, total = 10;
 |---|---|
 | Fondo body | `#0a0920` |
 | Fondo slide | `#131139` |
-| Fondo slide final | `#0d0b2a` |
+| Fondo slide final (07) | `#0d0b2a` |
 | Overlay imagen | `linear-gradient(to top, #131139 35%, rgba(19,17,57,0.55) 70%, rgba(19,17,57,0.3) 100%)` |
 | Acento degradado | `linear-gradient(90deg, #FA743F 0%, #A406E9 100%)` |
 | Divider | `linear-gradient(90deg, #FA743F, #A406E9)` |
@@ -112,11 +112,11 @@ let cur = 0, total = 10;
 
 ---
 
-## Handle @tokidev.ia
+## Handle @tokidev.ai
 
 Siempre dentro del `<div class="slide">`, antes del contenido:
 ```html
-<div class="handle">@tokidev.ia</div>
+<div class="handle">@tokidev.ai</div>
 ```
 - Slides 02–06: `font-size: 28px` (definido en CSS global)
 - Slide 01 portada: `font-size: 40px` (override `#slide-0 .handle`)
@@ -195,55 +195,76 @@ Tamaños: `.ico` (normal) | `.ico.sm` (pequeño) | `.ico.xl` (grande)
 - Layout: `justify-content: flex-end` (contenido abajo-izquierda)
 - Título con `.h-hero` + `.accent` en la parte más impactante
 - Descripción: `.desc-hero`, max-width 680px
-- Imagen de fondo opcional: derecha con `mask-image` degradado hacia la izquierda
+- Imagen de fondo opcional: usar patrón de overlay (ver sección abajo) — NO usar `mask-image`
 
-### Slides internos — Contenido
-- `id="slide-1"` a `id="slide-N-2"`, `class="slide"`
-- Layout: `justify-content: flex-end` o `center`, padding `52px 60px 64px`
+### Slides 02–06 — Contenido
+- `id="slide-1"` a `id="slide-5"`, `class="slide"`
+- Layout: `justify-content: flex-end`, padding `52px 60px 64px`
 - Siempre incluir `<div class="glow"></div>` para el halo superior
-- Usar `justify-content: flex-start` con `padding-top` cuando el contenido es denso y debe empezar arriba
+- Si el slide tiene imagen abajo + contenido arriba: usar `justify-content: flex-start` con `padding-top` adecuado en CSS
 
-### Slide final — CTA
-- Último `id`, `class="slide"`, `background: #0d0b2a`
+### Slide 07 — CTA Final
+- `id="slide-6"`, `class="slide"`, `background: #0d0b2a`
 - Estructura FIJA — no modificar el layout:
   - `.final-top`: pregunta principal + subtítulo motivador
-  - `.final-bar`: texto de seguimiento + `@tokidev.ia` + íconos GUARDA/COMPARTE/COMENTA
+  - `.final-bar`: "Seguinos para más contenido de IA y tech" + `@tokidev.ai` + íconos GUARDA/COMPARTE/COMENTA
 - Sin badges de número, sin emojis decorativos
 
 ---
 
-## Reglas críticas de exportación
+## Reglas de contenido
 
-Al exportar PNG con dom-to-image, los textos deben cumplir:
-- **`white-space: nowrap`** en todos los badges, labels, tags y textos de una línea
-- **`flex-shrink: 0`** en iconos y puntos decorativos dentro de flex containers
-- **Textos cortos** en subtítulos de cards para no hacer wrap
-- Slides con contenido denso: usar `justify-content: flex-start` para evitar solapamiento
+- **Sin badges** de número de slide (ej. "04 / 07") — eliminados definitivamente
+- **Sin emojis** decorativos en slide final
+- **Acento** (degradado naranja→morado) siempre en la palabra/frase más impactante del título
+- **Máximo 2 cards** por slide en layout de 2 columnas para que respiren
+- Imágenes de producto: siempre con overlay encima para legibilidad
+- Slide 01: pregunta directa o dato fuerte que genere curiosidad
+- `white-space: nowrap` en textos del label de producto y follow-label para evitar que se partan en 2 líneas al exportar
 
 ---
 
-## Imagen de fondo portada — patrón esquina derecha
+## Imagen de fondo portada (slide 01) — patrón con overlay
+
+**IMPORTANTE:** NO usar `mask-image` — no es compatible con exportadores de PNG.
+En su lugar, usar dos divs: la imagen sin máscara + un overlay gradient encima que simula el fade.
 
 ```html
-<div style="position: absolute; right: 0; top: 0; width: 620px; height: 1350px; z-index: 1; pointer-events: none;">
+<!-- Imagen esquina derecha con fade lateral — compatible con export PNG -->
+<div style="position: absolute; right: 0; top: 0; width: 780px; height: 1350px; z-index: 1; pointer-events: none; overflow: hidden;">
+  <!-- Imagen sin máscara -->
   <div style="width: 100%; height: 100%;
-    background: url('URL_IMAGEN') center center/cover no-repeat;
-    -webkit-mask-image: linear-gradient(to left, black 0%, black 25%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.2) 75%, transparent 95%);
-    mask-image: linear-gradient(to left, black 0%, black 25%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.2) 75%, transparent 95%);">
+    background: url('URL_IMAGEN') center top/cover no-repeat;">
+  </div>
+  <!-- Overlay que simula el fade (reemplaza mask-image) -->
+  <div style="position: absolute; inset: 0;
+    background: linear-gradient(to right,
+      #131139 0%, #131139 2%,
+      rgba(19,17,57,0.92) 12%,
+      rgba(19,17,57,0.65) 30%,
+      rgba(19,17,57,0.25) 55%,
+      transparent 80%, transparent 100%);">
   </div>
 </div>
-<div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 80% 50%, rgba(19,17,57,0) 0%, rgba(19,17,57,0.3) 50%, #131139 75%); z-index: 2; pointer-events: none;"></div>
+<div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 40%, rgba(19,17,57,0) 0%, rgba(19,17,57,0.55) 55%, #131139 80%); z-index: 2; pointer-events: none;"></div>
 ```
+
+Para imágenes externas (Cloudinary u otras URLs), usar directamente la URL en `background: url('...')`.
 
 ---
 
 ## Exportación (ya configurada en la plantilla)
 
-- Librería: `dom-to-image` desde CDN Cloudflare
-- Resolución: 1080 × 1350 px, PNG calidad 1
-- Nombre archivos: `[tema]-slide-01.png` ... `[tema]-slide-N.png`
-- UI (flechas, nav, contador, botón export) se ocultan durante export con `visibility: hidden`
-- Handle `@tokidev.ia` SÍ aparece en el export (está dentro del slide, no en la UI)
+- **Librería:** `html-to-image` desde jsDelivr CDN
+  - `https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js`
+- **Por qué html-to-image en vez de dom-to-image o html2canvas:**
+  - Soporta `-webkit-background-clip: text` → texto degradado correcto en PNG
+  - Soporta overlays, radial-gradient y CSS moderno
+  - Maneja imágenes externas (Cloudinary) via fetch con CORS
+- Resolución: 1080 × 1350 px exactos (`pixelRatio: 1`)
+- Nombre archivos: `[tema]-slide-01.png` ... `[tema]-slide-07.png`
+- UI (flechas, nav, contador, botón export) se excluyen con `filter` durante export
+- Handle `@tokidev.ai` SÍ aparece en el export (está dentro del slide)
 
 ---
 
