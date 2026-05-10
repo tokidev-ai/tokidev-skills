@@ -1,6 +1,6 @@
 # 🎨 tokidev-skills
 
-Skills de Cowork / Claude Code para el contenido de **@tokidev.ai** — carruseles de Instagram, infografías para LinkedIn y más.
+Skills de Cowork / Claude Code para el contenido de **@tokidev.ai** — carruseles de Instagram, infografías para LinkedIn, diseño web y más.
 
 ## Skills disponibles
 
@@ -9,6 +9,7 @@ Skills de Cowork / Claude Code para el contenido de **@tokidev.ai** — carrusel
 | [`carousel-tokidev`](./carousel-tokidev/) | Genera carruseles de Instagram 1080×1350px listos para exportar como PNG |
 | [`infografia-tokidev`](./infografia-tokidev/) | Genera infografías para LinkedIn 1080×1440px listos para exportar como PNG |
 | [`linkedin-dev-auditor`](./linkedin-dev-auditor/) | Audita perfiles de LinkedIn para developers — 10 aspectos, puntaje y recomendaciones concretas |
+| [`tokidev-design-system`](./tokidev-design-system/) | Aplica el estilo visual de Tokidev (dark navy, gradientes cálidos, glassmorphism) en cualquier proyecto web |
 
 ---
 
@@ -69,6 +70,18 @@ Infografía sobre cómo optimizar prompts para GPT y Claude
 ```
 
 Claude genera el HTML listo para abrir en el navegador y exportar como PNG en formato retrato LinkedIn (1080×1440px).
+
+### Diseño web estilo Tokidev
+
+```
+Aplicá el estilo tokidev a mi landing page
+```
+
+```
+Refactorizá este componente para que use tokidev design system en Tailwind
+```
+
+Claude aplica automáticamente los tokens, gradientes y patrones visuales del sistema de diseño Tokidev.
 
 ---
 
