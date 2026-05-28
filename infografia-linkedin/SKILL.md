@@ -1,9 +1,9 @@
 ---
-name: infografia-tokidev
-description: "Crear infografías de LinkedIn para @tokidev.ai en HTML con canvas fijo (1080×1440px), exportación PNG. Usar cuando el usuario pida infografía, infographic LinkedIn, imagen informativa, visual educativo, o cualquier variante. Incluye todo el sistema de diseño — colores, tipografía, secciones, componentes y export listo. NO necesita explicar colores ni estructura, ya está todo aquí."
+name: infografia-linkedin
+description: "Crear infografías de LinkedIn en HTML con canvas fijo (1080×1440px), exportación PNG. Elige tu propio handle/marca de agua. Incluye todo el sistema de diseño — colores, tipografía, secciones, componentes y export listo. NO necesita explicar colores ni estructura."
 ---
 
-# Skill: Infografía LinkedIn @tokidev.ai
+# Skill: Infografía LinkedIn
 
 Genera infografías de LinkedIn en formato HTML listo para abrir en el navegador y exportar como PNG de 1080×1440px. Usa el sistema de diseño y los componentes documentados aquí. Guarda el resultado como `[tema]-linkedin.html` en la carpeta del proyecto.
 
@@ -14,7 +14,7 @@ Genera infografías de LinkedIn en formato HTML listo para abrir en el navegador
 1. **Preguntar** el tema y las secciones que quiere mostrar (si no están especificadas)
 2. **Planificar** las secciones: máximo 4–5 secciones numeradas + header
 3. **Generar** el HTML usando los componentes y CSS del sistema de diseño
-4. **Guardar** como `[tema]-linkedin.html` en `C:\Users\Usuario\OneDrive\Documentos\Claude\Projects\Contenido\`
+4. **Guardar** como `[tema]-linkedin.html` en la carpeta de trabajo activa del usuario.
 5. **Compartir** el link al archivo
 
 ---
@@ -23,7 +23,7 @@ Genera infografías de LinkedIn en formato HTML listo para abrir en el navegador
 
 | Variable | Valor |
 |---|---|
-| Handle | `tokidev.ai` |
+| Handle | El handle o marca del usuario (ej. tu-marca.com, @usuario, o el que elija el usuario) |
 | Canvas | `1080 × 1440 px` |
 | Formato export | PNG via dom-to-image |
 | Idioma | Español rioplatense (voseo) |
@@ -68,7 +68,7 @@ background: radial-gradient(circle, rgba(250,116,63,0.18) 0%, transparent 65%);
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>[Tema] — tokidev.ai</title>
+<title>[Tema] — [MARCA_USUARIO]</title>
 <style>
 /* PEGAR CSS COMPLETO AQUÍ */
 </style>
@@ -85,7 +85,7 @@ background: radial-gradient(circle, rgba(250,116,63,0.18) 0%, transparent 65%);
       <div class="eyebrow">[Categoría] · [Subtítulo]</div>
       <div class="brand">
         <div class="brand-dot"></div>
-        <div class="brand-name">tokidev.ai</div>
+        <div class="brand-name">[MARCA_USUARIO]</div>
       </div>
     </div>
     <div class="hdr-title">
@@ -146,7 +146,7 @@ function exportPNG() {
     })
     .then(function(dataUrl) {
       var a = document.createElement('a');
-      a.download = '[tema]-linkedin-tokidev.png';
+      a.download = '[tema]-linkedin.png';
       a.href = dataUrl;
       document.body.appendChild(a);
       a.click();
@@ -381,4 +381,4 @@ Colores de ícono: `ic-bl` (azul) · `ic-te` (teal) · `ic-gn` (verde) · `ic-or
 - Resolución: 1080×1440px PNG
 - Los glow divs se filtran vía `filter` function (no `data-html2canvas-ignore`)
 - **No usar** `html2canvas` — falla con `radial-gradient` en elementos internos
-- Nombre de archivo: `[tema]-linkedin-tokidev.png`
+- Nombre de archivo: `[tema]-linkedin.png`

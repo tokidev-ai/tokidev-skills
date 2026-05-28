@@ -1,9 +1,9 @@
 ---
-name: carousel-tokidev
-description: "Crear carruseles de Instagram para @tokidev.ai en HTML con slides personalizados (1080x1350px), exportacion PNG. Usar cuando el usuario pida carrusel, slides Instagram, nuevo carrusel, carrusel sobre X, o cualquier variante. Incluye todo el sistema de diseno — colores, tipografia, componentes y plantilla lista. NO necesita explicar colores ni estructura, ya esta todo aqui."
+name: carousel-instagram
+description: "Crear carruseles de Instagram en HTML con slides personalizados (1080x1350px), exportacion PNG. Elige tu propio handle/marca de agua. Incluye todo el sistema de diseno — colores, tipografia, componentes y plantilla lista. NO necesita explicar colores ni estructura."
 ---
 
-# Skill: Carrusel Instagram @tokidev.ai
+# Skill: Carrusel Instagram
 
 Genera carruseles de Instagram en formato HTML listo para abrir en el navegador y exportar como PNG. Usa la plantilla bundled en `assets/carousel-template.html` como base, rellena con el contenido indicado por el usuario, y guarda el resultado como un nuevo archivo `.html` en la carpeta del proyecto.
 
@@ -69,7 +69,7 @@ let cur = 0, total = 10;
 
 | Variable | Valor |
 |---|---|
-| Handle | `@tokidev.ai` |
+| Handle | El handle de Instagram del usuario (ej. @tu-cuenta o el que indique el usuario) |
 | Formato | 1080 × 1350 px |
 | Slides | Variable (preguntar al usuario, mínimo 3) |
 | Idioma | Español rioplatense (voseo: "usás", "hacés") |
@@ -112,12 +112,13 @@ let cur = 0, total = 10;
 
 ---
 
-## Handle @tokidev.ai
+## Handle / Marca de agua
 
 Siempre dentro del `<div class="slide">`, antes del contenido:
 ```html
-<div class="handle">@tokidev.ai</div>
+<div class="handle">[HANDLE_USUARIO]</div>
 ```
+- Donde `[HANDLE_USUARIO]` es el handle de Instagram configurado por el usuario (ej: `@mi_usuario`). Si el usuario no especifica su handle, usar `@tu-cuenta` por defecto.
 - Slides 02–06: `font-size: 28px` (definido en CSS global)
 - Slide 01 portada: `font-size: 40px` (override `#slide-0 .handle`)
 - Posición: `top: 46px; right: 60px`
@@ -207,7 +208,7 @@ Tamaños: `.ico` (normal) | `.ico.sm` (pequeño) | `.ico.xl` (grande)
 - `id="slide-6"`, `class="slide"`, `background: #0d0b2a`
 - Estructura FIJA — no modificar el layout:
   - `.final-top`: pregunta principal + subtítulo motivador
-  - `.final-bar`: "Seguinos para más contenido de IA y tech" + `@tokidev.ai` + íconos GUARDA/COMPARTE/COMENTA
+  - `.final-bar`: "Seguinos para más contenido" + el handle del usuario + íconos GUARDA/COMPARTE/COMENTA
 - Sin badges de número, sin emojis decorativos
 
 ---
@@ -264,7 +265,7 @@ Para imágenes externas (Cloudinary u otras URLs), usar directamente la URL en `
 - Resolución: 1080 × 1350 px exactos (`pixelRatio: 1`)
 - Nombre archivos: `[tema]-slide-01.png` ... `[tema]-slide-07.png`
 - UI (flechas, nav, contador, botón export) se excluyen con `filter` durante export
-- Handle `@tokidev.ai` SÍ aparece en el export (está dentro del slide)
+- El handle del usuario SÍ aparece en el export (está dentro del slide)
 
 ---
 
