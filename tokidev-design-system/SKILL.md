@@ -1,6 +1,6 @@
 ---
 name: tokidev-design-system
-description: Apply the Tokidev design system (dark navy, coral orange, golden yellow, glassmorphism) to any web project. Use this skill whenever the user wants to: build a website with the Tokidev style, apply the tokidev colors or typography to a page, create a dark themed landing page with gradient headings and glassmorphic nav, replicate the tokidev.ia look in HTML/CSS/Tailwind, or use tokidev colors in any web component. Triggers for "tokidev style", "tokidev design", "use tokidev colors", "landing page like tokidev", "glassmorphism nav", or "dark portfolio design".
+description: "Apply the Tokidev design system (dark navy, coral orange, golden yellow, glassmorphism) to any web project. Triggers for tokidev style, tokidev design, use tokidev colors, landing page like tokidev, or glassmorphic nav."
 ---
 
 # Tokidev Design System
